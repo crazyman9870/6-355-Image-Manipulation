@@ -1,0 +1,114 @@
+[
+  {
+    "radius": 51.0,
+    "upperLeft": {
+      "x": 24.0,
+      "y": 125.0
+    },
+    "shapeType": "CIRCLE",
+    "color": {
+      "value": -1,
+      "falpha": 0.0
+    },
+    "center": {
+      "x": 126.0,
+      "y": 125.0
+    },
+    "rotation": 0.0,
+    "SHAPE_TYPE": "cs355.model.drawing.Circle"
+  },
+  {
+    "width": 149.0,
+    "height": 300.0,
+    "upperLeft": {
+      "x": 160.0,
+      "y": 50.0
+    },
+    "shapeType": "ELLIPSE",
+    "color": {
+      "value": -1,
+      "falpha": 0.0
+    },
+    "center": {
+      "x": 309.0,
+      "y": 50.0
+    },
+    "rotation": 0.0,
+    "SHAPE_TYPE": "cs355.model.drawing.Ellipse"
+  },
+  {
+    "a": {
+      "x": 347.0,
+      "y": 191.0
+    },
+    "b": {
+      "x": 413.0,
+      "y": 341.0
+    },
+    "c": {
+      "x": 285.0,
+      "y": 406.0
+    },
+    "shapeType": "TRIANGLE",
+    "color": {
+      "value": -1,
+      "falpha": 0.0
+    },
+    "center": {
+      "x": 348.3333333333333,
+      "y": 312.6666666666667
+    },
+    "rotation": 0.0,
+    "SHAPE_TYPE": "cs355.model.drawing.Triangle"
+  },
+  {
+    "a": {
+      "x": 434.0,
+      "y": 143.0
+    },
+    "b": {
+      "x": 407.0,
+      "y": 81.0
+    },
+    "c": {
+      "x": 333.0,
+      "y": 57.0
+    },
+    "shapeType": "TRIANGLE",
+    "color": {
+      "value": -1,
+      "falpha": 0.0
+    },
+    "center": {
+      "x": 391.3333333333333,
+      "y": 93.66666666666667
+    },
+    "rotation": 0.0,
+    "SHAPE_TYPE": "cs355.model.drawing.Triangle"
+  },
+  {
+    "a": {
+      "x": 352.0,
+      "y": 150.0
+    },
+    "b": {
+      "x": 428.0,
+      "y": 157.0
+    },
+    "c": {
+      "x": 419.0,
+      "y": 220.0
+    },
+    "shapeType": "TRIANGLE",
+    "color": {
+      "value": -1,
+      "falpha": 0.0
+    },
+    "center": {
+      "x": 399.6666666666667,
+      "y": 175.66666666666666
+    },
+    "rotation": 0.0,
+    "SHAPE_TYPE": "cs355.model.drawing.Triangle"
+  }
+]

@@ -317,7 +317,7 @@ public class ImageModel extends CS355Image {
 
 		setupUpdatedPixels();
 		
-		float scalar = 1.2f;
+		float scalar = 1.0f;
 		RescaleOp ro = new RescaleOp(scalar, amount, null);
 		buffer = ro.filter(buffer, buffer);
 		
@@ -351,7 +351,7 @@ public class ImageModel extends CS355Image {
 				
 				hsb[2] += adjustedAmount; //adjust brightness
 				
-				hsb[2] = Math.max(Math.min(hsb[2], 1.0f),-1.0f); //keep in range
+				hsb[2] = Math.max(Math.min(hsb[2], 1.0f), 0.0f); //keep in range
 				
 				Color c = Color.getHSBColor(hsb[0], hsb[1], hsb[2]);
 				

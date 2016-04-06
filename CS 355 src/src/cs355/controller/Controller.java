@@ -11,6 +11,7 @@ import java.util.Iterator;
 import cs355.GUIFunctions;
 import cs355.controller.IControllerState.stateType;
 import cs355.model.drawing.*;
+import cs355.model.image.ImageModel;
 import cs355.model.scene.Instance;
 import cs355.model.scene.Point3D;
 import cs355.model.scene.SceneModel;
@@ -36,6 +37,9 @@ public class Controller implements CS355Controller {
 	
 	private Point3D cameraHome;
 	private double rotationHome;
+	
+	private boolean displayImage;
+	private ImageModel image;
 
 	//If the model had not been initialized, it will be.
 	public static Controller instance() {
@@ -53,6 +57,8 @@ public class Controller implements CS355Controller {
 		SceneModel.instance().setCameraPosition(new Point3D(0f, 1.5f, 25f));
 		this.cameraHome = new Point3D(0f, 1.5f, 25f);
 		this.rotationHome = SceneModel.instance().getYaw();
+		this.displayImage = false;
+		this.image = null;
 	}
 	
 	/* Mouse Events */
@@ -184,7 +190,6 @@ public class Controller implements CS355Controller {
 
 	@Override
 	public void toggle3DModelDisplay() {
-//		System.out.println("3D BUTTON");
 		this.state = new Controller3DState();
 		Model.instance().changeMade();
 		
@@ -242,7 +247,8 @@ public class Controller implements CS355Controller {
 	}
 	
 	/* Menu Buttons */
-
+	
+	//2D
 	@Override
 	public void saveDrawing(File file) {
 		Model.instance().save(file);
@@ -253,15 +259,7 @@ public class Controller implements CS355Controller {
 		Model.instance().open(file);
 		GUIFunctions.refresh();
 	}
-
-	@Override
-	public void openScene(File file) {
-		SceneModel.instance().open(file);
-		this.cameraHome = SceneModel.instance().getCameraPosition();
-		this.rotationHome = SceneModel.instance().getYaw();
-		GUIFunctions.refresh();
-	}
-
+	
 	@Override
 	public void doMoveForward() {
 		if(state.getType() == stateType.SELECT) {
@@ -322,69 +320,93 @@ public class Controller implements CS355Controller {
 			}
 		}
 	}
-
-	/* Implement Later */
 	
+	//3D
+	@Override
+	public void openScene(File file) {
+		SceneModel.instance().open(file);
+		this.cameraHome = SceneModel.instance().getCameraPosition();
+		this.rotationHome = SceneModel.instance().getYaw();
+		GUIFunctions.refresh();
+	}
+	
+	//Image
 	@Override
 	public void openImage(File file) {
-		// TODO Auto-generated method stub
-
+		this.image = new ImageModel();
+		this.image.open(file);
+		GUIFunctions.refresh();
 	}
 
 	@Override
 	public void saveImage(File file) {
-		// TODO Auto-generated method stub
-
+		if(this.image != null)
+			this.image.save(file);
 	}
 
 	@Override
 	public void toggleBackgroundDisplay() {
-		// TODO Auto-generated method stub
-
+		displayImage = !displayImage;
+		Model.instance().changeMade();
 	}
+	
 
 	@Override
 	public void doEdgeDetection() {
-		// TODO Auto-generated method stub
-
+		if(this.image != null) {
+			this.image.edgeDetection();
+			Model.instance().changeMade();
+		}
 	}
 
 	@Override
 	public void doSharpen() {
-		// TODO Auto-generated method stub
-
+		if(this.image != null) {
+			this.image.sharpen();;
+			Model.instance().changeMade();
+		}
 	}
 
 	@Override
 	public void doMedianBlur() {
-		// TODO Auto-generated method stub
-
+		if(this.image != null) {
+			this.image.medianBlur();
+			Model.instance().changeMade();
+		}
 	}
 
 	@Override
 	public void doUniformBlur() {
-		// TODO Auto-generated method stub
-
+		if(this.image != null) {
+			this.image.uniformBlur();
+			Model.instance().changeMade();
+		}
 	}
 
 	@Override
 	public void doGrayscale() {
-		// TODO Auto-generated method stub
-
+		if(this.image != null) {
+			this.image.grayscale();
+			Model.instance().changeMade();
+		}
 	}
 
 	@Override
 	public void doChangeContrast(int contrastAmountNum) {
-		// TODO Auto-generated method stub
-
+		if(this.image != null) {
+			this.image.contrast(contrastAmountNum);
+			Model.instance().changeMade();
+		}
 	}
 
 	@Override
 	public void doChangeBrightness(int brightnessAmountNum) {
-		// TODO Auto-generated method stub
-
+		if(this.image != null) {
+			this.image.brightness(brightnessAmountNum);
+			Model.instance().changeMade();
+		}
 	}
-	
+
 	/* Transforms - 2D Objects */
 	
 	public AffineTransform objectToWorld(Shape shape) {
@@ -597,7 +619,17 @@ public class Controller implements CS355Controller {
 		return ((coord1 + coord2 + coord3) / 3);
 	}
 	
+	/* Getters and Setters */
+	
 	public IControllerState.stateType getState() {
 		return this.state.getType();
+	}
+	
+	public boolean getDisplayImage() {
+		return displayImage;
+	}
+
+	public ImageModel getImage() {
+		return image;
 	}
 }

@@ -9,8 +9,8 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Observable;
 import java.util.Random;
@@ -19,7 +19,7 @@ import cs355.GUIFunctions;
 import cs355.controller.Controller;
 import cs355.controller.IControllerState;
 import cs355.model.drawing.*;
-import cs355.model.scene.HouseModel;
+import cs355.model.image.ImageModel;
 import cs355.model.scene.Instance;
 import cs355.model.scene.Line3D;
 import cs355.model.scene.Point3D;
@@ -36,6 +36,11 @@ public class View implements ViewRefresher {
 
 	@Override
 	public void refreshView(Graphics2D g2d) {
+		
+		if(Controller.instance().getDisplayImage()) {
+			this.renderImage(g2d);
+		}
+		
 		ArrayList<Shape> shapes = (ArrayList<Shape>) Model.instance().getShapes();
 		int selectedShapeIndex = Model.instance().getSelectedShapeIndex();
 		for(int i = 0; i < shapes.size(); i++) {
@@ -249,5 +254,17 @@ public class View implements ViewRefresher {
 				}
 			}
 		}
+	}
+	
+	private void renderImage(Graphics2D g2d) {
+		ImageModel image = Controller.instance().getImage();
+		if(image == null)
+			return;
+		
+		g2d.setTransform(Controller.instance().worldToView());
+		
+		BufferedImage buffer = image.getImage();
+		
+		g2d.drawImage(buffer, null, 1024-(buffer.getWidth()/2), 1024-(buffer.getHeight()/2));
 	}
 }

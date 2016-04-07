@@ -313,23 +313,31 @@ public class ImageModel extends CS355Image {
 	@Override
 	public void contrast(int amount) {
 
-		int width = super.getWidth();
-
-		setupUpdatedPixels();
-		
-		float scalar = 1.0f;
-		RescaleOp ro = new RescaleOp(scalar, amount, null);
-		buffer = ro.filter(buffer, buffer);
+		float scalar = (float) Math.pow(((amount+100.0f)/100.0f), 4.0f);
+        
+		int[] rgb = new int[3];
+		float[] hsb = new float[3];
 		
 		for (int y = 0; y < super.getHeight(); ++y) {
 			for (int x = 0; x < super.getWidth(); ++x) {
-				this.updatedPixels[width * y + x][0] = buffer.getColorModel().getRed(buffer.getRGB(x, y));
-				this.updatedPixels[width * y + x][1] = buffer.getColorModel().getGreen(buffer.getRGB(x, y));
-				this.updatedPixels[width * y + x][2] = buffer.getColorModel().getBlue(buffer.getRGB(x, y));
+				
+				rgb = super.getPixel(x, y, rgb);
+				
+				hsb = Color.RGBtoHSB(rgb[0], rgb[1], rgb[2], hsb);
+				
+				hsb[2] = scalar*(hsb[2]-0.5f)+0.5f; //adjust brightness
+				
+				hsb[2] = Math.max(Math.min(hsb[2], 1.0f), 0.0f); //keep in range
+				
+				Color c = Color.getHSBColor(hsb[0], hsb[1], hsb[2]);
+				
+				rgb[0] = c.getRed();
+				rgb[1] = c.getGreen();
+				rgb[2] = c.getBlue();
+
+				setPixel(x, y, rgb); // Set the pixel
 			}
 		}
-		
-		updatePixels();
 		
 		buffer = null; //reset buffered image
 	}
